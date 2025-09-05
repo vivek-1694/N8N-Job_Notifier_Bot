@@ -30,4 +30,4 @@ Here’s how the automation works step by step:
 
 ## ▶️ Demo
 
-🎥 A working demo is available in docs/demo.mp4, showing how the workflow runs end-to-end for a sample email.
+🎥 A working demo is available in docs/N8N_bot_working.mp4, showing how the workflow runs end-to-end for a sample email.
