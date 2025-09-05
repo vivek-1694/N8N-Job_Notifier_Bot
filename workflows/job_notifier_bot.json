@@ -1,0 +1,1228 @@
+{
+  "name": "job_noti",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {
+          "labelIds": [
+            "INBOX"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -768,
+        96
+      ],
+      "id": "7566b0ad-afbc-4104-ba4c-47f1b61db7e8",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ayyJpb9YP3yEcZCp",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e09c0875-8020-462d-bb82-c4ea7d7e5d30",
+              "leftValue": "={{$json[\"snippet\"].toLowerCase()}}",
+              "rightValue": "placement",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "2c214be3-c9f3-4bcc-879e-f8980464cfa3",
+              "leftValue": "={{$json[\"snippet\"].toLowerCase()}}",
+              "rightValue": "hiring",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "aafd49e1-eb73-47a6-ab66-357279c9c4a4",
+              "leftValue": "={{$json[\"snippet\"].toLowerCase()}}",
+              "rightValue": "intern",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "b6c5f334-62cb-414d-9d87-3e97deff2583",
+              "leftValue": "={{$json[\"snippet\"].toLowerCase()}}",
+              "rightValue": "internship",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "9841d7da-205f-4238-87fe-674334c00acb",
+              "leftValue": "={{$json[\"snippet\"].toLowerCase()}}",
+              "rightValue": "opportunity",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -576,
+        96
+      ],
+      "id": "2dcde1fb-93cd-4534-8d50-0dd7d98f75af",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "19Tf2ll7AnyOKpjQPrxqdm2NeqtSGTfjOokIsWkDpN7Q",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "0",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "job_id": "={{$json[\"job_id\"]}}",
+            "subject": "={{$json[\"subject\"]}}",
+            "company": "={{$json[\"company\"]}}",
+            "status": "={{$json[\"status\"]}}",
+            "from": "={{$json[\"from\"]}}",
+            "job role": "={{$json[\"job_role\"]}}",
+            "time stamp": "={{ $json.timestamp }}"
+          },
+          "matchingColumns": [
+            "job_id"
+          ],
+          "schema": [
+            {
+              "id": "job_id",
+              "displayName": "job_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "from",
+              "displayName": "from",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "subject",
+              "displayName": "subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "company",
+              "displayName": "company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "job role",
+              "displayName": "job role",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time stamp",
+              "displayName": "time stamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        960,
+        -64
+      ],
+      "id": "76309bd0-55e0-4c7e-bbc6-723f69158ca7",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8T5kxstv5aQUuzIN",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "5851617848",
+        "text": "=New Job Notification:\n\nJob ID: {{$json[\"job_id\"]}}\nSubject: {{$json[\"subject\"]}}\nCompany: {{$json[\"company\"]}}\nRole: {{$json[\"job_role\"]}}\nFrom: {{$json[\"from\"]}}\n\nReply with:\n- know more {{$json[\"job_id\"]}}\n- generate resume {{$json[\"job_id\"]}}\n- skip {{$json[\"job_id\"]}}\n",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        976,
+        160
+      ],
+      "id": "af5b5880-9122-4285-9a1f-1c9c8346ddc2",
+      "name": "Send a text message1",
+      "webhookId": "62d7cf7c-848d-4196-b04c-641af67cf825",
+      "credentials": {
+        "telegramApi": {
+          "id": "1gRvJk8MpQ8RWD9I",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -672,
+        800
+      ],
+      "id": "e3efa1aa-669a-4b9b-b02f-09cb3eb7197d",
+      "name": "Telegram Trigger",
+      "webhookId": "44bd49e0-68fc-4dd6-99b6-36f6e75e4e11",
+      "credentials": {
+        "telegramApi": {
+          "id": "1gRvJk8MpQ8RWD9I",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Extract text safely\nconst text = $json[\"message\"]?.text?.trim() || \"\";\n\nif (!text) {\n  return {\n    json: {\n      action: \"unknown\",\n      job_id: \"unknown\"\n    }\n  };\n}\n\n// Split text into words\nconst parts = text.split(/\\s+/);\n\n// Determine action\nlet action = parts[0].toLowerCase();\nlet job_id_start_index = 1;\n\nif (parts[0]?.toLowerCase() === \"know\" && parts[1]?.toLowerCase() === \"more\") {\n  action = \"know more\";\n  job_id_start_index = 2;\n} else if (parts[0]?.toLowerCase() === \"generate\" && parts[1]?.toLowerCase() === \"resume\") {\n  action = \"generate resume\";\n  job_id_start_index = 2;\n}\n\n// Extract job_id\nconst job_id = parts.slice(job_id_start_index).join(\" \") || \"unknown\";\n\n// Return as single object\nreturn {\n  json: {\n    action,\n    job_id\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -288,
+        800
+      ],
+      "id": "c13ee94c-1a68-48dd-bfd3-8e5ef1f74d46",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Code1').item.json.action.toLowerCase()}}",
+                    "rightValue": "know more",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "aaaac3e7-1402-4eeb-b586-f8732e346222"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "bc6b3dd0-5859-470a-b489-9a977501959f",
+                    "leftValue": "={{ $('Code1').item.json.action.toLowerCase()}}",
+                    "rightValue": "generate resume",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "58135524-7a02-40ee-8d21-4ac8e3ee7ece",
+                    "leftValue": "={{ $('Code1').item.json.action.toLowerCase()}}",
+                    "rightValue": "skip",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        688,
+        784
+      ],
+      "id": "68d28fc1-48ed-4848-8bca-794ca308da5a",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "19Tf2ll7AnyOKpjQPrxqdm2NeqtSGTfjOokIsWkDpN7Q",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "0",
+          "mode": "id"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "job_id",
+              "lookupValue": "={{$json[\"job_id\"]}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        368,
+        800
+      ],
+      "id": "40c253ff-1460-4b1d-b737-2d27f1ea2ec3",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8T5kxstv5aQUuzIN",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => {\n  return {\n    json: {\n      text: (item.json.Subject || item.json.subject || \"\") + \" \" + (item.json.snippet || \"\")\n    }\n  };\n});\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -336,
+        368
+      ],
+      "id": "5e83af06-c409-44cf-ac15-f4edd2c34883",
+      "name": "Code2"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Extract the company and job role from the following email text:\n\n{{ $json.text }}\n\nReturn the result strictly in valid JSON format with exactly these two keys:\n{\n  \"company\": \"<company name or 'Company not found'>\",\n  \"job_role\": \"<job role or 'Role not found'>\"\n}\n\nRules:\n- Do not include code fences, markdown, or extra text.\n- Output must be valid JSON only.\n",
+        "hasOutputParser": true,
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        -64,
+        368
+      ],
+      "id": "cb28942b-b91d-4140-88a5-9efbf5ea94a7",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        176
+      ],
+      "id": "9a72a0d3-0532-4b9a-bc17-465557d570e4",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "zpSqVTiGJX53KrGV",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"company\": {\n      \"type\": \"string\",\n      \"description\": \"The name of the company mentioned in the email or 'Company not found'\"\n    },\n    \"job_role\": {\n      \"type\": \"string\",\n      \"description\": \"The job role mentioned in the email or 'Role not found'\"\n    }\n  },\n  \"required\": [\"company\", \"job_role\"]\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        48,
+        112
+      ],
+      "id": "12f22022-5edc-43e3-bb51-9db9af3d9f32",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => {\n  const data = item.json;\n\n  return {\n    json: {\n      job_id: data.id,\n      subject: data.Subject,\n      from: data.From,\n      snippet: data.snippet,\n      company: data.output?.company,\n      job_role: data.output?.job_role,\n      status: \"Pending\",\n      timestamp: new Date().toISOString()\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        576,
+        160
+      ],
+      "id": "38a78e43-739b-4967-b200-d04d58859589",
+      "name": "Code3",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        272,
+        -64
+      ],
+      "id": "ece1f661-aa6f-45c1-9fa7-70ae97e1c874",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "19Tf2ll7AnyOKpjQPrxqdm2NeqtSGTfjOokIsWkDpN7Q",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "0",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "status": "={{ $json.action }}",
+            "time stamp": "={{new Date().toISOString()}}",
+            "job_id": "={{ $json.job_id }}"
+          },
+          "matchingColumns": [
+            "job_id"
+          ],
+          "schema": [
+            {
+              "id": "job_id",
+              "displayName": "job_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "from",
+              "displayName": "from",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "subject",
+              "displayName": "subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "company",
+              "displayName": "company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "job role",
+              "displayName": "job role",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time stamp",
+              "displayName": "time stamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        64,
+        800
+      ],
+      "id": "e0607ed0-694a-40cc-8b65-caf1f250e10d",
+      "name": "Update row in sheet",
+      "alwaysOutputData": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8T5kxstv5aQUuzIN",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        816
+      ],
+      "id": "a426afb0-ea75-4423-a3a9-dc1d16d3c23d",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "zpSqVTiGJX53KrGV",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "19Tf2ll7AnyOKpjQPrxqdm2NeqtSGTfjOokIsWkDpN7Q",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "0",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "job_id": "={{$json[\"job_id\"]}}",
+            "status": "skipped or not interested"
+          },
+          "matchingColumns": [
+            "job_id"
+          ],
+          "schema": [
+            {
+              "id": "job_id",
+              "displayName": "job_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "from",
+              "displayName": "from",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "subject",
+              "displayName": "subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "company",
+              "displayName": "company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "job role",
+              "displayName": "job role",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time stamp",
+              "displayName": "time stamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        944,
+        1296
+      ],
+      "id": "381c659c-1576-4334-8718-ccd2751f6128",
+      "name": "Update row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8T5kxstv5aQUuzIN",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a professional career assistant. Provide a detailed, factual, and unbiased summary of the following:\\njob_id: {{ $json.job_id }} \\nCompany: {{$json['company']}}\\nJob Role:{{ $json['job role'] }} \\nInclude key responsibilities, and required skills. Format clearly and output should not exceed 10 lines.",
+        "hasOutputParser": true,
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        1024,
+        592
+      ],
+      "id": "6cb4044b-d189-461f-949d-61fe378da796",
+      "name": "Basic LLM Chain1"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\"job_id\": \"123456\",\n\"company\": \"InLighnX Global Private Limited\",\n\"Job role\": \"Artificial Intelligence & Machine Learning Intern. This role supports the development and implementation of intelligent systems.\",\n\"Key Responsibilities\": \"Data preprocessing, model development, algorithm implementation, testing, and solution optimization.\",\n\"Required Skills\": \"Proficiency in Python, ML frameworks (TensorFlow/PyTorch), data analysis, basic statistics, and problem-solving.\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1168,
+        800
+      ],
+      "id": "4348eb3c-38f4-4b6a-be68-5248a985dbbe",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "url": "https://www.googleapis.com/customsearch/v1",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "AIzaSyAdZY9c3p5HN27GwtiadVSwrlCcCCuhhgc"
+            },
+            {
+              "name": "cx",
+              "value": "10d9e1b3da5a147ba"
+            },
+            {
+              "name": "q",
+              "value": "={{ $json.company }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        928,
+        416
+      ],
+      "id": "d6049392-f0d5-42a1-b888-8daef360bbfb",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Take the first search result from HTTP node output\nconst firstItem = $input.first().json.items[0] || {};\n\n// Return only company website and snippet\nreturn [\n  {\n    json: {\n            job_id:$('Switch').first().json.job_id ,\n      company_website: firstItem.link || \"Not found\",\n      company_snippet: firstItem.snippet || \"Not found\"\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1136,
+        416
+      ],
+      "id": "0e7efb5f-a134-4d6f-a4d0-23808bfd0e7c",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "advanced": true,
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "job_id",
+              "field2": "output.job_id"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1456,
+        464
+      ],
+      "id": "7037e05f-3d60-46cd-ae1b-2bec005cb3f7",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "chatId": "5851617848",
+        "text": "=📢 Here's more information:\nJob ID: {{ $json.output.job_id }}\nCompany: {{ $json.output.company || \"Not found\"}}\nWebsite: {{ $json.company_website || \"Not found\"}}\nDescription: {{ $json.company_snippet || \"Not found\"}}\n\nJob Role:  {{ $json.output['Job role'] || \"Not found\"}}\nKey Responsibilities: {{ $json.output['Key Responsibilities']  || \"Not available\"}}\nSlills Required: {{ $json.output['Required Skills'] || \"Not available\" }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1664,
+        464
+      ],
+      "id": "fab9fa5a-9070-4a7f-ba0c-847b7e825f8c",
+      "name": "Send a text message",
+      "webhookId": "eb35fbff-1474-43e2-90f2-d3c4b5787862",
+      "credentials": {
+        "telegramApi": {
+          "id": "1gRvJk8MpQ8RWD9I",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an expert HR and resume writer. You create professional, ATS-friendly resumes in html format based on the following details: \\nJob Role: {{$json.output['Job role'] || \"Not found\"}} \\nInstructions:\\n- If the Job Role is 'Not found', generate a general resume highlighting skills, experience, and personal profile for a descent btech student.\\n- If Job Role is known, generate a role-specific resume tailored to that position, including relevant skills, projects, and achievements.\\n- Structure the resume professionally with headings: Objective, Skills, Experience/Projects, Education, Contact Info.\\n-. Do not give any instructions to use at the bottom and entire output should not exceed 25 lines",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        1456,
+        1232
+      ],
+      "id": "0ce0f6d8-4903-4c63-9094-20685eafb6e9",
+      "name": "Basic LLM Chain2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1296,
+        1424
+      ],
+      "id": "a32673f1-07ac-4352-9444-2321d7158c9f",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "zpSqVTiGJX53KrGV",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the raw HTML or markdown text from previous node\nlet resumeHtml = $input.first().json.text   || \"\";\n\n// Strip HTML tags and convert to plain text with Markdown styling\nconst convertToMarkdown = (html) => {\n    // Remove <style> and <script> content\n    html = html.replace(/<style[^>]*>[\\s\\S]*?<\\/style>/gi, \"\");\n    html = html.replace(/<script[^>]*>[\\s\\S]*?<\\/script>/gi, \"\");\n\n    // Replace headings with bold Markdown\n    html = html.replace(/<h1[^>]*>(.*?)<\\/h1>/gi, \"**$1**\\n\");\n    html = html.replace(/<h2[^>]*>(.*?)<\\/h2>/gi, \"\\n**$1**\\n\");\n    html = html.replace(/<h3[^>]*>(.*?)<\\/h3>/gi, \"\\n*$1*\\n\");\n\n    // Replace <li> with bullet points\n    html = html.replace(/<li[^>]*>(.*?)<\\/li>/gi, \"- $1\\n\");\n\n    // Replace paragraphs with line breaks\n    html = html.replace(/<p[^>]*>(.*?)<\\/p>/gi, \"$1\\n\");\n\n    // Remove remaining HTML tags\n    html = html.replace(/<[^>]+>/g, \"\");\n\n    // Decode HTML entities if needed\n    html = html.replace(/&nbsp;/gi, \" \");\n    html = html.replace(/&amp;/gi, \"&\");\n    html = html.replace(/&lt;/gi, \"<\");\n    html = html.replace(/&gt;/gi, \">\");\n    html = html.replace(/&quot;/gi, '\"');\n    html = html.replace(/&#39;/gi, \"'\");\n\n    return html.trim();\n};\n\nconst messageText = convertToMarkdown(resumeHtml);\n\nreturn [\n    {\n        json: {\n            message: messageText\n        }\n    }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1888,
+        1232
+      ],
+      "id": "f877db0b-2425-481c-83b2-333275daa9c6",
+      "name": "Code4"
+    },
+    {
+      "parameters": {
+        "chatId": "5851617848",
+        "text": "={{ $json.message }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2096,
+        1232
+      ],
+      "id": "8944af18-fe9e-4760-9060-1e403a1c5d1f",
+      "name": "Send a text message2",
+      "webhookId": "91e2dcf8-04bd-45e6-8bb7-769105788762",
+      "credentials": {
+        "telegramApi": {
+          "id": "1gRvJk8MpQ8RWD9I",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Code2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        []
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Basic LLM Chain2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code2": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Code3": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Code3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain1": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain2": {
+      "main": [
+        [
+          {
+            "node": "Code4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code4": {
+      "main": [
+        [
+          {
+            "node": "Send a text message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "2ca5d3aa-11c6-4fcc-95d0-e0e7728e8ab8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e9d06ee482a377d7c6f694b15ccdc523e04a798919d5c94c0b0e93ddb2fde929"
+  },
+  "id": "ov6WWP5btaCJcpFo",
+  "tags": []
+}
