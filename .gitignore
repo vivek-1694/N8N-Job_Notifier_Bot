@@ -1,0 +1,60 @@
+# ------------------------
+# Node / n8n related
+# ------------------------
+node_modules/
+dist/
+.build/
+.cache/
+.n8n/
+
+# ------------------------
+# Environment & credentials
+# ------------------------
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.json
+!workflows/*.json      # allow workflow exports only
+!docs/*.json           # allow docs JSON if needed
+
+# ------------------------
+# OS generated files
+# ------------------------
+.DS_Store
+Thumbs.db
+
+# ------------------------
+# Logs & debug
+# ------------------------
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# ------------------------
+# VSCode / IDE settings
+# ------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ------------------------
+# Videos, large media (keep docs/demo.mp4 explicitly)
+# ------------------------
+*.mp4
+*.avi
+*.mov
+*.mkv
+!docs/demo.mp4
+
+# ------------------------
+# Python / misc (if any future scripts)
+# ------------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
