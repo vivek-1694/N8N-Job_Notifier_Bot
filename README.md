@@ -27,42 +27,6 @@ Here’s how the automation works step by step:
 
 ---
 
-## 📁 Repository Layout
-
-N8N/
-├─ workflows/
-│ └─ job-tracker.json # n8n export (workflow only, no secrets)
-├─ docs/
-│ └─ demo.mp4 # recorded demo of a sample run
-├─ .env.example # environment variable template
-├─ .gitignore
-└─ README.md
-
-
-
-
----
-
-## 🔐 Environment Variables (`.env.example`)
-
-```env
-# Telegram
-TELEGRAM_BOT_TOKEN=YOUR_TELEGRAM_BOT_TOKEN
-TELEGRAM_WEBHOOK_URL=https://<NGROK_ID>.ngrok.io/telegram-webhook
-
-# Google Sheets
-GOOGLE_SHEETS_SPREADSHEET_ID=YOUR_SPREADSHEET_ID
-GOOGLE_SERVICE_ACCOUNT_EMAIL=service-account@project.iam.gserviceaccount.com
-
-# n8n public URL (via ngrok)
-N8N_PUBLIC_URL=https://<NGROK_ID>.ngrok.io
-
-# LLM (optional)
-LLM_PROVIDER=OPENAI
-LLM_MODEL=gpt-4o-mini
-LLM_API_KEY=YOUR_API_KEY
-
---- 
 
 ## ▶️ Demo
 
